@@ -1,0 +1,70 @@
+services:
+  app:
+    # Goの公式イメージを使用（最新の安定版）
+    image: golang:1.21-alpine
+    
+    # コンテナ名を設定
+    container_name: go-server
+    
+    # ワーキングディレクトリを設定
+    working_dir: /workspace
+    
+    # ポートマッピング（ホスト:コンテナ）
+    ports:
+      - "8080:8080"
+    
+    # ボリュームマウント（開発時のホットリロード用）
+    volumes:
+      - ./app:/workspace
+    
+    # 環境変数
+    environment:
+      - GO_ENV=development
+      - CGO_ENABLED=0
+      - GOOS=linux
+      - GOARCH=amd64
+      - DB_HOST=postgres-db
+      - DB_PORT=5432
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - DB_NAME=myapp
+      - DB_SSLMODE=disable
+    
+    # コンテナを起動し続けるためのコマンド
+    command: sh -c "go mod tidy && go run -mod=readonly main.go"
+    
+    # デバッグ用にstdinとttyを有効化
+    stdin_open: true
+    tty: true
+    
+    # 依存関係（必要に応じて）
+    depends_on:
+      - db
+    
+    # ネットワーク
+    networks:
+      - app-network
+
+  # データベース（PostgreSQL）の例
+  db:
+    image: postgres:15-alpine
+    container_name: postgres-db
+    environment:
+      - POSTGRES_DB=myapp
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+# ボリューム定義
+volumes:
+  postgres_data:
+
+# ネットワーク定義
+networks:
+  app-network:
+    driver: bridge
