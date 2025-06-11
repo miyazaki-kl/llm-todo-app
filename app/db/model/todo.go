@@ -54,11 +54,11 @@ type TodoCreateRequest struct {
 
 // TodoUpdateRequest Todo更新リクエスト用の構造体
 type TodoUpdateRequest struct {
-	Title       *string    `json:"title" validate:"omitempty,max=255"`
-	Description *string    `json:"description"`
-	Completed   *bool      `json:"completed"`
-	Priority    *Priority  `json:"priority"`
-	DueDate     *time.Time `json:"due_date"`
+	Title       *string    `json:"title,omitempty" validate:"omitempty,max=255"`
+	Description *string    `json:"description,omitempty"`
+	Completed   *bool      `json:"completed,omitempty"`
+	Priority    *Priority  `json:"priority,omitempty"`
+	DueDate     *time.Time `json:"due_date,omitempty"`
 }
 
 // TodoResponse APIレスポンス用のTodo構造体

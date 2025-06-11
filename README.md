@@ -69,13 +69,14 @@ docker compose restart app
 - `GET /health` - アプリケーションヘルスチェック
 - `GET /health/db` - データベース接続ヘルスチェック
 
-### Todo API (RESTful)
+### Todo API (RESTful - Huma Framework)
 - `GET /api/v1/todos` - 全てのTodoを取得
   - クエリパラメータ: `?priority=high&completed=false`
 - `POST /api/v1/todos` - 新しいTodoを作成
 - `GET /api/v1/todos/{id}` - 特定のTodoを取得
 - `PUT /api/v1/todos/{id}` - Todoを更新
 - `DELETE /api/v1/todos/{id}` - Todoを削除
+- `GET /docs` - OpenAPI ドキュメント（自動生成）
 
 ### Todo リクエスト例
 
